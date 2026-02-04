@@ -1,68 +1,233 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+/* ================= RESET ================= */
+* {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* ================= BASE ================= */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
 }
 
+.app-container {
+  padding: 0;
+}
+
+/* ================= HEADINGS ================= */
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+h3 {
+  margin: 0;
+}
+
+/* ================= BUTTONS ================= */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  border: none;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+button:hover {
+  opacity: 0.9;
+}
+
+/* ================= INPUTS ================= */
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  resize: none;
+}
+
+/* ================= AUTH (LOGIN / REGISTER) ================= */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px; /* 🔥 controlled spacing */
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.auth-card h2 {
+  margin-bottom: 15px;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-card button {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  background: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.navbar h3 {
+  color: #2563eb;
+  font-size: 18px;
+}
+
+.navbar span {
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.navbar button {
+  background-color: #ef4444;
+  color: #fff;
+  padding: 6px 12px;
+}
+
+.navbar button:hover {
+  background-color: #dc2626;
+}
+
+/* ================= FEED ================= */
+.feed-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* ================= CREATE POST ================= */
+.create-post {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.create-post textarea {
+  min-height: 80px;
+}
+
+.create-post button {
+  background-color: #2563eb;
+  color: #fff;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ================= POST CARD ================= */
+.post-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.post-user {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.post-text {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.post-stats {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+/* ================= ACTIONS ================= */
+.post-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.post-actions button {
+  background: #f1f3f5;
+  padding: 6px 12px;
+}
+
+.post-actions button.liked {
+  background: #ff4d4f;
+  color: #fff;
+}
+
+/* ================= COMMENTS ================= */
+.comment-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.comment-box input {
+  flex: 1;
+}
+
+.comment-box button {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.comments-list {
+  margin-top: 8px;
+  padding-left: 6px;
+}
+
+.comment-item {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  .feed-container {
+    padding: 15px;
   }
-  a:hover {
-    color: #747bff;
+
+  .comment-box {
+    flex-direction: column;
   }
-  button {
-    background-color: #f9f9f9;
+
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .auth-container {
+    padding-top: 30px;
   }
 }
