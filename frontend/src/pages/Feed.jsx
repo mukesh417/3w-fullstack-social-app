@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import CreatePost from "../components/CreatePost";
 import PostCard from "../components/PostCard";
@@ -6,6 +7,30 @@ import Navbar from "../components/Navbar";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
+  const navigate = useNavigate(); // ✅ FIX 1
+
+  // 🔐 AUTH CHECK
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  // 📥 FETCH POSTS
+  const fetchPosts = async () => {
+    try {
+      const res = await api.get("/posts");
+      setPosts(res.data || []); // ✅ SAFE
+    } catch (err) {
+      console.error("Error fetching posts", err);
+      setPosts([]); // ✅ prevent crash
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   // 💬 COMMENT
   const handleComment = async (postId, text) => {
@@ -17,7 +42,7 @@ const Feed = () => {
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post._id === postId
-            ? { ...post, comments: res.data.comments, commentText: "" }
+            ? { ...post, comments: res.data.comments }
             : post
         )
       );
@@ -35,7 +60,7 @@ const Feed = () => {
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post._id === postId
-            ? { ...post, likes: Array(res.data.likes).fill("x") }
+            ? { ...post, likes: res.data.likes }
             : post
         )
       );
@@ -45,42 +70,32 @@ const Feed = () => {
     }
   };
 
-  // 📥 FETCH POSTS
-  const fetchPosts = async () => {
-    try {
-      const res = await api.get("/posts");
-      setPosts(res.data);
-    } catch (err) {
-      console.error("Error fetching posts", err);
-    }
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
   return (
     <div className="feed-container">
-      {/* 🔝 NAVBAR (Logout handled here) */}
+      {/* 🔝 NAVBAR */}
       <Navbar />
 
-      <h2 className="feed-title" >Feed</h2>
+      <h2 className="feed-title">Feed</h2>
 
       {/* ✍️ CREATE POST */}
       <CreatePost setPosts={setPosts} />
 
-      {posts.length === 0 && <p>No posts yet</p>}
-
-      {/* 🧱 POSTS */}
-      {posts.map((post) => (
-        <PostCard
-          key={post._id}
-          post={post}
-          onLike={handleLike}
-          onComment={handleComment}
-          setPosts={setPosts}
-        />
-      ))}
+      {/* 🧱 POSTS / EMPTY STATE */}
+      {posts.length === 0 ? (
+        <p style={{ textAlign: "center", marginTop: "40px", color: "#888" }}>
+          No posts yet 🚀 Be the first one to create a post.
+        </p>
+      ) : (
+        posts.map((post) => (
+          <PostCard
+            key={post._id}
+            post={post}
+            onLike={handleLike}
+            onComment={handleComment}
+            setPosts={setPosts}
+          />
+        ))
+      )}
     </div>
   );
 };
