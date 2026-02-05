@@ -18,7 +18,7 @@ const Register = () => {
       });
 
       alert("Registration successful. Now login.");
-      navigate("/login"); // ✅ SPA navigation (NO 404)
+      navigate("/login");
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || "Registration failed");
@@ -56,6 +56,16 @@ const Register = () => {
           />
 
           <button type="submit">Register</button>
+
+          <p style={{ marginTop: "12px" }}>
+            Already have an account?{" "}
+            <span
+              style={{ color: "#4f46e5", cursor: "pointer" }}
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </span>
+          </p>
         </form>
       </div>
     </div>
