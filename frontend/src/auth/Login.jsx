@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
-const Login = () => {
+const Login = ({ setIsAuth }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -15,14 +15,13 @@ const Login = () => {
         password,
       });
 
-      // ✅ Save auth data
+      // save auth
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      alert("Login successful");
-      navigate("/"); // ✅ SPA navigation (NO 404)
+      setIsAuth(true); // ✅ trigger re-render
+      navigate("/");  // ✅ go to Feed
     } catch (err) {
-      console.error(err);
       alert(err.response?.data?.message || "Login failed");
     }
   };
@@ -50,6 +49,16 @@ const Login = () => {
           />
 
           <button type="submit">Login</button>
+
+          <p style={{ marginTop: "12px" }}>
+            Don’t have an account?{" "}
+            <span
+              style={{ color: "#4f46e5", cursor: "pointer" }}
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </span>
+          </p>
         </form>
       </div>
     </div>

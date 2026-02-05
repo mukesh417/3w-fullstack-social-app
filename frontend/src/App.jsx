@@ -1,7 +1,8 @@
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Feed from "./pages/Feed";
-import { useState } from "react";
 
 function App() {
   const [isAuth, setIsAuth] = useState(
@@ -9,16 +10,31 @@ function App() {
   );
 
   return (
-    <div className="app-container">
-      {isAuth ? (
-        <Feed />
-      ) : (
-        <>
-          <Register />
-          <Login />
-        </>
-      )}
-    </div>
+    <Routes>
+      {/* Protected Home */}
+      <Route
+        path="/"
+        element={isAuth ? <Feed /> : <Navigate to="/login" />}
+      />
+
+      {/* Login */}
+      <Route
+        path="/login"
+        element={
+          !isAuth ? (
+            <Login setIsAuth={setIsAuth} />
+          ) : (
+            <Navigate to="/" />
+          )
+        }
+      />
+
+      {/* Register */}
+      <Route
+        path="/register"
+        element={!isAuth ? <Register /> : <Navigate to="/" />}
+      />
+    </Routes>
   );
 }
 
