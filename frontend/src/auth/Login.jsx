@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,12 +19,11 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      console.log("Login success ✅", res.data);
-      window.location.href = "/";
       alert("Login successful");
+      navigate("/"); // ✅ SPA navigation (NO 404)
     } catch (err) {
       console.error(err);
-      alert("Login failed");
+      alert(err.response?.data?.message || "Login failed");
     }
   };
 
